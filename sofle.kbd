@@ -1,0 +1,290 @@
+
+(defcfg
+  ;; For Linux
+  input  (device-file "/dev/input/by-id/usb-JosefAdamcik_Sofle-event-kbd")
+  output (uinput-sink "KMonad sofle output"
+    "/usr/bin/sleep 1 && /usr/bin/setxkbmap -layout us -option compose:menu")
+  cmp-seq compose    ;; Set the compose key
+  cmp-seq-delay 5 ;; 5ms delay between each compose-key sequence press
+
+  ;; For Windows
+  ;; input  (low-level-hook)
+  ;; output (send-event-sink)
+
+  ;; For MacOS
+  ;; input  (iokit-name "my-keyboard-product-string")
+  ;; output (kext)
+
+  ;; Comment this is you want unhandled events not to be emitted
+  fallthrough true
+
+  ;; Set this to false to disable any command-execution in KMonad
+  allow-cmd true
+)
+
+(defalias
+  def  (around (layer-rem navigation) (layer-rem numbers))
+  xnav (layer-rem navigation)
+  cesc (tap-hold-next 200 esc lctl)
+  lret (tap-hold-next 200 ret (layer-toggle symbols))
+  aret (tap-hold-next 200 ret lalt)
+  mret (tap-hold-next 200 ret ralt)
+  lmsy (tap-hold-next 200 (around-next (layer-toggle symbols)) lmet)
+  rmsw (tap-hold-next 200 (layer-add swedish) rmet)
+  rmde (tap-hold-next 200 (layer-rem swedish) rmet)
+  ;; nav (tap-hold-next 200 (layer-add navigation) (layer-toggle navigation))
+  nav (layer-toggle navigation)
+  sw (tap-hold-next 200 (layer-add swedish) (layer-toggle swedish))
+  xsw (layer-rem swedish)
+  _ (around lshft -)
+  cp KeyCopy
+  paste KeyPaste
+  cut KeyCut
+  swcapsfail (around lshft (layer-toggle swedish-caps))
+  swcaps (around (layer-toggle caps) (layer-toggle swedish-caps))
+  sft_e (tap-hold-next-release 200 e lsft)
+  sym_r (tap-hold-next-release 200 r (layer-toggle symbols))
+  sym_u (tap-hold-next-release 200 u (layer-toggle symbols))
+  sft_i (tap-hold-next-release 200 i lsft)
+  alt_a (tap-hold-next-release 200 a lalt)
+  met_s (tap-hold-next-release 200 s lmet)
+  sft_d (tap-hold-next-release 200 d lsft)
+  ctl_f (tap-hold-next-release 200 f lctl)
+  ctl_j (tap-hold-next-release 200 j rctl)
+  sft_k (tap-hold-next-release 200 k rsft)
+  met_l (tap-hold-next-release 200 l lmet)
+  alt_; (tap-hold-next-release 200 ; lalt)
+  sft_c (tap-hold-next-release 200 c lsft)
+  nav_v (tap-hold-next-release 200 v (layer-toggle navigation))
+  nav_m (tap-hold-next-release 200 m (layer-toggle navigation))
+  nav_spc (tap-hold-next-release 200 spc (layer-toggle navigation))
+  tab KeyTab
+  stab (around lsft KeyTab)
+)
+
+(defalias
+  se_exlm (around lshft 1)
+  se_dqou (around lshft 2)
+  se_hash (around lshft 3)
+  se_curr (around lshft 4)
+  se_perc (around lshft 5)
+  se_ampr (around lshft 6)
+  se_slsh (around lshft 7)
+  se_lprn (around lshft 8)
+  se_rprn (around lshft 9)
+
+  se_eql (around lshft 0)
+  se_ques (around lshft -)
+
+  se_astr (around lshft bksl)
+  se_lt nubs
+  se_gt (around lshft nubs)
+  se_scln (around lshft .)
+  se_cln (around lshft ,)
+  se_unds (around lshft /)
+  se_mins /
+
+  se_at (around ralt 2)
+  se_dlr (around ralt 4)
+  se_lcbr (around ralt 7)
+  se_lbr (around ralt 8)
+  se_rbr (around ralt 9)
+  se_rcbr (around ralt 0)
+  se_bsls (around ralt -)
+)
+
+(defsrc
+  esc   1    2    3    4    5    6    7    8    9    0    bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [
+  caps  a    s    d    f    g    h    j    k    l    ;    '
+  lsft  z    x    c    v    b    n    m    ,    .    /    ]
+             lctl lmet lalt           spc  ralt rmet rctl
+)
+
+;; @cesc @alt_a @met_s @sft_d @ctl_f _ _ @ctl_j @sft_k @met_l @alt_; _
+
+(deflayer default
+  _     _    _    _    _    _    _    _    _    _    _    -
+  _     _    _    @sft_e @sym_r _  _  @sym_u @sft_i  _    _    _
+  @cesc _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    @sft_c @nav_v _  _  @nav_m _  _    _    _
+             _  @lmsy @nav_spc        _   @aret _    _
+)
+
+#| --------------------------------------------------------------------------
+(deflayer empty
+  _     _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _
+             _    _    _              _    _    _    _
+)
+-------------------------------------------------------------------------- |#
+
+(deflayer numbers
+  @def  _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    7    8    9    -    /
+  @def  _    _    _    _    _    bspc 4    5    6    +    *
+  @def  _    _    _    _    _    _    1    2    3    _    _
+             _    _    _              _    0    _    _
+)
+
+(deflayer navigation
+  @xnav KeyF1 KeyF2 KeyF3 KeyF4 KeyF5 KeyF6 KeyF7 KeyF8 KeyF9 KeyF10 +
+  _     _    @xsw end @stab @tab @cp  pgup _    _  @paste _
+  _     home @sw  del  _    _    KeyLeft KeyDown KeyUp KeyRight _ grv
+  _     _    _    _    _    _    bspc pgdn _    _    -    _
+             _    _    @xnav          _    @tab _    _
+)
+
+(deflayer caps
+  _     _    _    _    _    _    _    _    _    _    _    _
+  _     Q    W    E    R    T    Y    U    I    O    P    _
+  _     A    S    D    F    G    H    J    K    L    _    _
+  _     Z    X    C    V    B    N    M    _    _    _    _
+             _    _    _              _    _    _    _
+)
+
+(deflayer swedish
+  @xsw  _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    å
+  _     _    _    _    _    _    _    _    _    _    ö    ä
+  @swcaps _  _    _    _    _    _    _    _    _    -    _
+             _    _    _              _    _    @xsw _
+)
+
+(deflayer swedish-caps
+  _     !    "    _    #    %    &    /    \(   \)   =    ?
+  _     _    _    _    _    _    _    _    _    _    _    Å
+  _     _    _    _    _    _    _    _    _    _    Ö    Ä
+  _     _    _    _    _    _    _    _    ;    :    @_   _
+             _    _    _              _    _    _    _
+)
+
+(deflayer symbols
+  _     _    _    _    _    _    _    _    _    _    _    _
+  _     !    @    #    $    %    =    7    8    9    +    _
+  _     \\   |    {    \(   [    *    4    5    6    -    grv
+  _     ^    &    }    \)   ]    ~    1    2    3    /    _
+             _    _    _              @_   0    _    -
+)
+
+(deflayer symbols-se
+  @def  _    _    _    _    _    _    _    _    _    _    @se_bsls
+  _     _    _    _    _    _    _    _    _    _    _    _
+  @def  @se_exlm @se_at @se_hash @se_curr @se_perc _ _ _ _ _ _
+  _     _    _    _    _    _    _    _    _    _    _    _
+             _    _    _              _    _    _    _
+)
+
+#| --------------------------------------------------------------------------
+fdkj
+Here I c test things.
+kkhello\\\\
+Wow, @
+Now I have moved the compose key to the alt gr key so I can use that one
+again. Progress progress.
+Lets see if my tab works. 456789123456. Yes it does. This looks promising.
+
+Time to test again. Escape works!
+
+Lets see what happened with meta. ''''''980900099
+'''''''
+
+Time tk
+
+Now I can enter number mode by a quick type on switch:
+789456123
+
+I can go back by pressing switch again.
+789456123-(kjjj
+]]}}}}]]{[
+helhhhhhhhhhhh
+helllohhhhhhhhhhhhllhhllllllllhhhhhworld
+
+hello
+
+
+!@#¤%¤¤¤¤¤
+¤!!!!
+jkljjjjj
+
+!@ddfdfasdf
+hhj!ssss¤%as@#u
+
+
+!aaaaaa!aaaaaaa!aaaaa
+
+
+
+
+
+
+]]]][[]}}}]][[{[[
+
+
+78945612354855554--((-(((-((0(000096++`+++++++
+
+
+Testar svenska tecken nu n'r jag '''';;;;:::'""";;;'""";;
+LLLL:::::::;;;;::;;::;;;;::""""''''""'"[[[[[{{{{[[[{{{{o
+,,,<<<>>><<<>>>
+
+ä';ä'ö''''''''''''ö;;;öö''''
+
+ok, nu skall vi se om vi har n[gra svenska tangenter.
+nu skall det g[[[[[[
+
+
+[[[[[[[[ääääöööö
+
+[';åäöMMMM
+
+
+jjjJJKJKFFDⒶÅÅÄÖÖÖÖÖÖPPPⒶÅÅÅÅÅÅÅÄÄÄÄÄÖÖÖÖÖÖMMMM
+
+ååⒶⒶⒶⒶⒶåⒶⒶⒶⒶⒶⒶⒶåå[[[[{{{{{{{Ⓐ[ⒶⒶⒶⒶⒶⒶ
+
+
+ååååäääöööööⒶÄÖK
+
+Lets see now. Can I write Swedish characters
+åååääääöööö. ok, and capsÅÄÖ yes1
+Yes....ååäöÅÄÖHFDFKKJ
+It works. Now. Lets sleep.,.,.ÅÅÅÅÄÄÄåååå
+
+What is now missing___
+A lot of vourse.
+swedish: åäö.
+ÅÄÖLJKJL.
+jjjjUUUÅÅÅÄÄÖÖÖ
+>>>><<{{{"""{{'''
+åäö
+hellol
+ÅÄÖ
+,,,,,,,,,
+hello navigatiojjjjjjnnnnnnnnnhhhhnnnnn555nkkk44454jjkkj444544
+llllkkhll[[[[ååååååkkk'''ääääääää/////(((()()()====---------- pp
+ii
+k
+JKJKJKjk
+jkjkjkjjjjk
+jkkjkjkjjk
+
+fdfdfsdfdsfsdfdsfdsfsdfsdfj
+kjkjk
+jjjjjjjjjjjjjjjkkkkkkkjjjjkkkjkkkkkkkkjjjjk
+ikkiijk
+h
+
+Lets see what we can do now.
+e and i are now shift
+HELLO.
+----
+r and space gives a ----
+But i realize now that I cannot press R and E at the same time anyway.
+
+So I changed a bit and now _ R+space gives and _ instead. That actually feels quite good.
+
+
+  -------------------------------------------------------------------------- |#

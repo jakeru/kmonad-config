@@ -1,0 +1,4 @@
+#+title: KMonad configuration
+
+* Introduction
+[[https://github.com/kmonad/kmonad][KMonad]] is a Keyboard Management tool that works on Linux, Windows and MacOS.
