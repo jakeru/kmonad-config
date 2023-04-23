@@ -47,6 +47,7 @@
   nav_m (tap-hold-next-release 200 m (layer-toggle navigation))
   tab KeyTab
   stab (around lsft KeyTab)
+  met_spc (tap-hold-next-release 200 spc lmet)
 )
 
 (defsrc
@@ -61,9 +62,10 @@
   _     _    _    _    _    _    _    _    _    _    _    _    _
   @tnum _    _    _    @sym_r _  _    @sym_u _  _    _    _    _
 ;;  @cesc @alt_a @met_s @sft_d @ctl_f _ _ @ctl_j @sft_k @met_l @alt_; _ _
-  @cesc _    _    _    _    _    _    _    _    _    _    _    _
+;;  @cesc _    _    _    _    _    _    _    _    _    _    _    _
+  @cesc _    _    @sft_d _    _    _    _    _    _  _    _    _
   @snum _    _    _    @nav_v _  _    @nav_m    _    _    _    _
-             _  @lmsy @nav       _         @aret _ _
+             _  @lmsy @nav     _      @aret _   _
 )
 
 #| --------------------------------------------------------------------------
@@ -97,7 +99,7 @@
   _     !    @    #    $    %    =    7    8    9    +    _     _
   _     \\   |    {    \(   [    *    4    5    6    /    grv   _
   _     ^    &    }    \)   ]    ~    1    2    3    -    _
-             _    _    _         _         0    _    _
+             _    _    _         @_        0    _    _
 )
 
 (deflayer caps

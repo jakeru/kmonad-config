@@ -19,11 +19,12 @@
   fallthrough true
 
   ;; Set this to false to disable any command-execution in KMonad
-  allow-cmd true
+  allow-cmd false
 )
 
 (defalias
   def  (around (layer-rem navigation) (layer-rem numbers))
+  sym  (layer-toggle symbols)
   xnav (layer-rem navigation)
   cesc (tap-hold-next 200 esc lctl)
   lret (tap-hold-next 200 ret (layer-toggle symbols))
@@ -58,6 +59,9 @@
   nav_v (tap-hold-next-release 200 v (layer-toggle navigation))
   nav_m (tap-hold-next-release 200 m (layer-toggle navigation))
   nav_spc (tap-hold-next-release 200 spc (layer-toggle navigation))
+  nav_tab (tap-hold-next-release 200 KeyTab (layer-toggle navigation))
+  ;; nav_tab (tap-hold-next-release 200 (tap-hold-next-release 200 spc (layer-toggle symbols)) (layer-toggle navigation))
+  ;; sym_spc (tap-hold-next-release 200 spc (layer-toggle symbols))
   tab KeyTab
   stab (around lsft KeyTab)
 )
@@ -105,10 +109,12 @@
 
 (deflayer default
   _     _    _    _    _    _    _    _    _    _    _    -
-  _     _    _    @sft_e @sym_r _  _  @sym_u @sft_i  _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    -
+;; _     _    _    @sft_e @sym_r _  _  @sym_u @sft_i  _    _    _
   @cesc _    _    _    _    _    _    _    _    _    _    _
-  _     _    _    @sft_c @nav_v _  _  @nav_m _  _    _    _
-             _  @lmsy @nav_spc        _   @aret _    _
+  _     _    _    _    _    _    _    _    _    _    _    -
+;; _     _    _    @sft_c @nav_v _  _  @nav_m _  _    _    _
+             _  @lmsy @nav_tab        _   @aret @sym _
 )
 
 #| --------------------------------------------------------------------------

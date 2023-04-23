@@ -12,19 +12,13 @@
 )
 
 (defalias
-  num  (layer-toggle numbers)
-  def  (around (layer-rem navigation) (layer-rem numbers))
   xnav (layer-rem navigation)
   cesc (tap-hold-next 200 esc lctl)
   aret (tap-hold-next 200 ret lalt)
-  mret (tap-hold-next 200 ret ralt)
-  snum (tap-hold-next 200 (layer-add numbers) lsft)
-  xnum (layer-rem numbers)
-  tnum (tap-hold-next 200 tab (layer-toggle numbers))
   lmsy (tap-hold-next 200 (around-next (layer-toggle symbols)) lmet)
-  rmsw (tap-hold-next 200 (layer-add swedish) rmet)
-  nav (tap-hold-next 200 (layer-add navigation) (layer-toggle navigation))
-  sw (tap-hold-next 200 (layer-add swedish) (layer-toggle swedish))
+  sy (layer-toggle symbols)
+  nav (layer-toggle navigation)
+  sw (layer-add swedish)
   xsw (layer-rem swedish)
   swcaps (around (layer-toggle caps) (layer-toggle swedish-caps))
   swsyms (layer-toggle swedish-syms)
@@ -32,6 +26,8 @@
   cp KeyCopy
   paste KeyPaste
   cut KeyCut
+  tab KeyTab
+  stab (around lsft KeyTab)
 )
 
 (defsrc
@@ -44,10 +40,10 @@
 
 (deflayer default
   _     _    _    _    _    _    _    _    _    _    _    _    _
-  @tnum _    _    _    _    _    _    _    _    _    _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _
   @cesc _    _    _    _    _    _    _    _    _    _    _    _
-  @snum _    _    _    _    _    _    _    _    _    _    _
-             _  @lmsy @nav       _         @aret @sw _
+  _     _    _    _    _    _    _    _    _    _    _    _
+             _  @lmsy @nav       _         @aret _   _
 )
 
 #| --------------------------------------------------------------------------
@@ -60,17 +56,9 @@
 )
 -------------------------------------------------------------------------- |#
 
-(deflayer numbers
-  @xnum _    _    _    _    _    _    _    _    _    _    _    _
-  _     _    _    _    _    _    _    7    8    9    -    /    _
-  _     _    _    _    _    _    bspc 4    5    6    +    *    _
-  @xnum _    _    _    _    _    _    1    2    3    _    _
-             _    _    _         _         0    _    _
-)
-
 (deflayer navigation
   @xnav KeyF1 KeyF2 KeyF3 KeyF4 KeyF5 KeyF6 KeyF7 KeyF8 KeyF9 KeyF10 + _
-  _     _    @xsw end  _    _    @cp  pgup _    _  @paste _    _
+  _     _    @xsw end  @stab @tab  @cp  pgup _    _  @paste _    _
   _     home @sw  del  _    _    KeyLeft KeyDown KeyUp KeyRight _    grv    _
   _     _    _    _    _    _    bspc pgdn _    +    -    _
              _    _    @xnav     ret       _    _    _
@@ -81,7 +69,7 @@
   _     !    @    #    $    %    =    7    8    9    +    _     _
   _     \\   |    {    \(   [    *    4    5    6    -    grv   _
   _     ^    &    }    \)   ]    ~    1    2    3    /    _
-             _    _    _         _         0    _    _
+             _    @sy  _         @_        0    _    _
 )
 
 (deflayer caps
@@ -101,7 +89,7 @@
 )
 
 (deflayer swedish-caps
-  _     !    "    _    #    %    &    /    \(   \)   =    ?    _
+  _     !    "    #    _    %    &    /    \(   \)   =    ?    _
   _     _    _    _    _    _    _    _    _    _    _    Å    _
   _     _    _    _    _    _    _    _    _    _    Ö    Ä    _
   _     _    _    _    _    _    _    _    ;    :    @_   _
@@ -149,6 +137,8 @@ I can emit digits using jkl as a numpad by holding down tab:
 I can enter the number layer by pressing shift briefly:
 - 789456123
 - I press shift again to leave the layer.
+
+Swedish keyboard still works: åäöÅÄÖ.
 
 
   -------------------------------------------------------------------------- |#
